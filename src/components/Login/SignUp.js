@@ -6,11 +6,6 @@ import './Login.css';
 
 export default function SignUp() {
  
-
-  
-
-
-
     return (
       <section className="ftco-section">
       <div className="container">
