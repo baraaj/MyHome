@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.min.js";
 import Navbar from './components/Navbar/navbar';
 import Annonce from './components/Annonce/Annonce';
+import MyHome from './components/Home/MyHome';
  
  
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <Navbar/>
     <Routes>
     <Route path="/Annonce" element={<Annonce/>} exact />
+    <Route path="/" element={<MyHome/>} exact />
      
     </Routes>
  
