@@ -37,7 +37,7 @@ alert("Event added !")})
 .catch(error => console.log('error', error));
    }*/
   return (
-    <div id="wrapper">
+    <div id="wrapper" style={{alignContent:"center",alignItems:"center",padding:"50px 150px"}}>
 
                  
     
@@ -51,7 +51,7 @@ alert("Event added !")})
     
     
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                                    <h1 class="h3 mb-0 title">Ajout d'un evènement</h1>
+                                    <h1 class="h3 mb-0 title">Ajout d'un article</h1>
     
                                 </div>
                                <div class="">
@@ -69,29 +69,30 @@ alert("Event added !")})
   </div>
   
   <div class="form-group ">
-    <label for="club">Ordre</label>
-    <input pattern="[0-9]*" type="number" class="form-control" id="club" aria-describedby="Help" placeholder="Entrer la description"onChange={(e)=>setOrdre(e.target.value)}/>
+    <label for="club">Price</label>
+    <input  type="number" class="form-control" id="club" aria-describedby="Help" placeholder="Entrer le prix"onChange={(e)=>setOrdre(e.target.value)}/>
  
   </div>
   <div class="form-group ">
-    <label for="club">Date</label>
-    <textarea type="text" class="form-control" id="club" aria-describedby="Help" placeholder="Entrer la description"onChange={(e)=>setDate(e.target.value)}/>
+    <label for="club">Contact</label>
+    <input  type="number" class="form-control" id="club" aria-describedby="Help" placeholder="Entrer le prix"onChange={(e)=>setOrdre(e.target.value)}/>
  
   </div>
   <div class="form-group ">
-    <label for="club">Horaire</label>
-    <textarea type="text" class="form-control" id="club" aria-describedby="Help" placeholder="Entrer la description"onChange={(e)=>setHoraire(e.target.value)}/>
+    <label for="club">Phone Number</label>
+    <input  type="number" class="form-control" id="club" aria-describedby="Help" placeholder="Entrer le prix"onChange={(e)=>setOrdre(e.target.value)}/>
  
   </div>
-  <div class="form-group ">
+  <div class="form-group " style={{margin:"20px 0px"}}>
 
 <label for="exampleFormControlFile1">Image</label>
 <input type="file" class="form-control-file" id="exampleFormControlFile1" onChange={Imagehandler}/>
 
 </div>
  
- 
-  <button type="submit" class="btn-2 d-flex justify-content-center text-center">Sauvegarder</button>
+<div class="form-group " style={{alignSelf:"center"}}>
+  <button type="submit" class="btn-2 d-flex justify-content-center text-center" style={{backgroundColor:"greenyellow",borderColor:"greenyellow"}}>Save</button>
+</div>
 </form>
  </div>
     
