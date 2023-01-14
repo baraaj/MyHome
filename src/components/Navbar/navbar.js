@@ -17,10 +17,9 @@ const Navbar = () => {
  
   <div className=" collapse navbar-collapse" id="navbarNavDropdown">
     <div className="navbar-nav">
-    <a className="nav-item nav-link" href="/">Home</a>
-      <a className="nav-item nav-link" href="/Annonce">Add Article</a>
-      <a className="nav-item nav-link" href="/PeterNumber">PeterNumber</a>
-      <a className="nav-item nav-link" href="/Graph">Graph</a>
+    <a style={{paddingLeft:"120px"}}className="nav-item nav-link" href="/">Home</a>
+      <a style={{paddingLeft:"120px"}}className="nav-item nav-link" href="/Annonce">Add Article</a>
+      <a style={{paddingLeft:"220px"}}className="nav-item nav-link" href="/Login">Login</a>
     </div>
     
   </div>

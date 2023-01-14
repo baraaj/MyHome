@@ -6,6 +6,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import Navbar from './components/Navbar/navbar';
 import Annonce from './components/Annonce/Annonce';
 import MyHome from './components/Home/MyHome';
+import Login from './components/Login/Login';
  
  
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <Routes>
     <Route path="/Annonce" element={<Annonce/>} exact />
     <Route path="/" element={<MyHome/>} exact />
+    <Route path="/Login" element={<Login/>} exact />
      
     </Routes>
  
