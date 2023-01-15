@@ -1,11 +1,42 @@
-import React, { Component } from 'react';
+import React, {useState,useRef,useEffect} from 'react';
 import './Login.css';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate} from 'react-router-dom';
 
 
 export default function Login() {
- 
+  
+     const [user,setUser]=useState('');
+     const [pwd,setPwd]=useState('');
+     const [errMsg,setErrMsg]=useState('');
+     const [success,setSuccess]=useState(false);
+     const userRef=useRef();
+     const errRef=useRef();
+     useEffect(()=>{
+        setErrMsg('');
+     },[user,pwd])
+     useEffect(()=>{
+     // userRef.current.focus();
+   })
+     const handleSubmit=e=>{
+      e.preventDefault();
+     // setUser('');
+      //setPwd('');
+      setSuccess(true);
+
+     }
     return (
+      <>
+      {success ?(
+        <section>
+          <h1>You are logged In</h1>
+        </section>
+      )
+      :(
+        <>
+      <p ref={errRef}className={errMsg?"errmsg":"offscreen"}aria-live="assertive">
+      {errMsg}
+   </p>
+      
       <section className="ftco-section">
       <div className="container">
         <div className="row justify-content-center">
@@ -25,17 +56,17 @@ export default function Login() {
                   </div>
                   
                 </div>
-                <form className="signin-form"
-
->
+                <form className="signin-form" onSubmit={handleSubmit}>
                   <div className="form-group mb-3">
-                    <label className="label" for="name">Username</label>
-                    <input type="text" className="form-control" placeholder="Username" onChange={(e) => { this.setState({username: e.target.value }) }}required/>
+                    <label className="label" htmlFor="name">Username</label>
+                    <input type="text" id="name" className="form-control" ref={userRef} placeholder="Username" value={user} onChange={(e) => setUser(e.target.value)}required/>
                   </div>
+ 
                   <div className="form-group mb-3">
-                    <label className="label" for="password">Password</label>
-                    <input type="password" className="form-control" placeholder="Password" onChange={(e) => { this.setState({ password: e.target.value }) }} required/>
+                    <label className="label" htmlFor="password">Password</label>
+                    <input type="password" id="password" className="form-control" placeholder="Password" value={pwd} onChange={(e) =>setPwd(e.target.value)}required/>
                   </div>
+                  
                   <div className="form-group">
                     <button type="submit" className="form-control btn btn-primary rounded submit px-3">Sign In</button>
                   </div>
@@ -51,5 +82,9 @@ export default function Login() {
         </div>
       </div>
     </section>
+    </>
+    )
+  }
+    </>
     )
   }
