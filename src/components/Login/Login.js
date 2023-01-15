@@ -2,7 +2,7 @@ import React, {useState,useRef,useEffect} from 'react';
 import './Login.css';
 import { Navigate, useNavigate} from 'react-router-dom';
 
-
+import immo from"../../assets/images/immo.jpg"
 export default function Login() {
   
      const [user,setUser]=useState('');
@@ -12,15 +12,16 @@ export default function Login() {
      const userRef=useRef();
      const errRef=useRef();
      useEffect(()=>{
+      //userRef.current.focus();
+    })
+     useEffect(()=>{
         setErrMsg('');
      },[user,pwd])
-     useEffect(()=>{
-     // userRef.current.focus();
-   })
+     
      const handleSubmit=e=>{
       e.preventDefault();
-     // setUser('');
-      //setPwd('');
+       setUser('');
+      setPwd('');
       setSuccess(true);
 
      }
@@ -47,7 +48,7 @@ export default function Login() {
         <div className="row justify-content-center">
           <div className="col-md-12 col-lg-10">
             <div className="wrap d-md-flex">
-              <img className="img" src="" />
+              <img className="img" src={immo}/>
               
               <div className="login-wrap p-4 p-md-5">
                 <div className="d-flex">
@@ -56,18 +57,21 @@ export default function Login() {
                   </div>
                   
                 </div>
-                <form className="signin-form" onSubmit={handleSubmit}>
-                  <div className="form-group mb-3">
-                    <label className="label" htmlFor="name">Username</label>
-                    <input type="text" id="name" className="form-control" ref={userRef} placeholder="Username" value={user} onChange={(e) => setUser(e.target.value)}required/>
+                <form  onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label for="name">Username</label>
+                    <input type="text" id="name" className="form-control"aria-describedby="Help" ref={userRef} placeholder="Username"onChange={(e) => setUser(e.target.value)} required/>
+                  </div>
+                  <div>
+
                   </div>
  
-                  <div className="form-group mb-3">
-                    <label className="label" htmlFor="password">Password</label>
-                    <input type="password" id="password" className="form-control" placeholder="Password" value={pwd} onChange={(e) =>setPwd(e.target.value)}required/>
+                  <div className="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" className="form-control"aria-describedby="Help"  placeholder="Password" onChange={(e) =>setPwd(e.target.value)} required/>
                   </div>
                   
-                  <div className="form-group">
+                  <div>
                     <button type="submit" className="form-control btn btn-primary rounded submit px-3">Sign In</button>
                   </div>
                
