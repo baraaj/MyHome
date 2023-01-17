@@ -19,75 +19,90 @@ import {useState,useEffect} from 'react';
  import { useLocation, useParams } from "react-router-dom";  
 export default function Dashboard() {
   const [selected, setSelected] =useState("");
-  const [clbs, setClubs] =useState([]);
-  
+  const [annonces, setAnnonces] =useState([]);
+  const [approuved,setApprouved]=useState(false);
   const { id } = useParams();
-  let clb=[];
+  let ann=[];
   
   /** Function that will set different values to state variable
    * based on which dropdown is selected
    */
-   
+   const addAnnonce=  async(e,params)=>{
+    setApprouved(true);
+    e.preventDefault();
+    var formdata = new FormData();
+    formdata.append("Titre", params.row.Titre);
+    formdata.append("Description", params.row.Description);
+    formdata.append("Image", params.row.Image);
+    formdata.append("Email", params.row.Email);
+    formdata.append("Tel",params.row.Phone);
+    formdata.append("Prix", params.row.Prix);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:3000/api/annonce/store", requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        console.log(result);
+        alert("Annonce added !");
+      })
+      .catch((error) => console.log("error", error));
+  };
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 60 },
+  { field: 'id', headerName: 'ID', width: 260 },
   {
-    field: 'nom',
-    headerName: 'Nom',
+    field: 'titre',
+    headerName: 'Titre',
     width: 120,
     editable: true,
   },
   {
-    field: 'activité',
-    headerName: 'Activité',
+    field: 'description',
+    headerName: 'Description',
     width: 120,
     editable: true,
   },
   {
-    field: 'emplacement',
-    headerName: 'Emplacement',
-    width: 120,
+    field: 'prix',
+    headerName: 'Prix',
+    width: 80,
     editable: true,
   },
   {
-    field: 'région',
-    headerName: 'Région',
+    field: 'email',
+    headerName: 'Email',
+    //sortable: false,
+    width: 120,
+   
+  },
+  {
+    field: 'phone',
+    headerName: 'Phone',
     sortable: false,
     width: 120,
    
   },
   {
-    field: 'gouvernement',
-    headerName: 'Gouvernement',
-    sortable: false,
-    width: 120,
-   
-  },
-  {
-    field: 'logo',
-    headerName: 'Logo',
+    field: 'image',
+    headerName: 'Image',
     sortable: false,
     width: 120,
     renderCell:(params)=>{
       return(
         <>
-       
-     <img className='avatar'src={"http://localhost:3000/"+params.row.logo} />
+      { console.log(params.row.image)}
+     <img className='avatar'src={"http://localhost:3000/images/"+params.value} />
         </>
       )
     }
 
    
   },
-  {
-    field: 'temps',
-    headerName: 'Temps',
-    sortable: false,
-    width: 430,
-     
-    type: 'string',
-  
-   
-  },
+ 
   {
     field: 'action',
     headerName: 'Action',
@@ -96,10 +111,10 @@ const columns: GridColDef[] = [
     renderCell:(params)=>{
       return(
         <>
-       <Link to={"/modifclubs/"+params.id} state={{club:params.row}}>
-        <a className="edit"><EditIcon style={{Color:'#444'}}/></a>
-        </Link>
-        <a className="delete"><DeleteIcon style={{Color:"#555"}}/> </a>
+        
+       
+        <button style={{backgroundColor:"greenyellow",borderColor:"greenyellow"}}>Approuved</button>
+        <a onClick={(e)=>{deleteAnn(params.id,e)}}className="delete"><DeleteIcon style={{Color:'#444'}}/></a>
         </>
       )
     }
@@ -107,21 +122,18 @@ const columns: GridColDef[] = [
 ];
 
   
-  const rows =clbs.map((c) => { 
+  const rows =annonces.map((c) => {  
  
   return {
-    
-    id:c._id,
-    nom:c.nom_club,
-    gouvernement: c.gouvernement,
-    emplacement:c.emplacement,
-    temps:c.temps.map(cc=>{
-      return cc.jour.toString()+""+cc.horaire.toString()+"\r"
-  }),
-    région:c.region,
-    logo:c.logo,
-    activité:c.activite.map(a=>{return a.toString()+""})
    
+    id:c._id,
+    titre:c.Titre,
+    prix: c.Prix,
+    email:c.Email,
+    phone:c.Tel,
+    description :c.Description,
+    image:c.Image, 
+     
   };});
    
     
@@ -129,46 +141,37 @@ const columns: GridColDef[] = [
 
    
 
- /* const getClubs=async ()=>{
+ const getBrouillon=async ()=>{
   try {
-    const res=await axios.get("/clubs"
+    const res=await axios.get("http://localhost:3000/api/brouillon/"
     
     );
-    const club=res.data.clubs;
-   setClubs(club);
+    
+    const ann=res.data;
+   setAnnonces(ann);
    
     
   } catch (err) {
     console.log(err);
   }
  };
- const find=()=>{
-     
-  axios.get("/clubs/findgouvernement/"+querygouv+"/"+queryregion)
-  .then(response => {
-    const clubs = response.data;
-    
-    setClubs(clubs);
-   
-  
-   
-  
-  })};
+ 
+
   
   useEffect(()=>{
     
-    getClubs();
-   
+    getBrouillon();
+    //console.log(annonces)
  },[]);
-  const deleteClub=async(id)=>{ 
-    let clubs=[];
+  const deleteAnn=async(id)=>{ 
+    let annoncess=[];
    try {
-     const res=await axios.delete(`/clubs/${id}`)
+     const res=await axios.delete(`http://localhost:3000/api/brouillon/${id}`)
      .then(res=>{
-
-       clubs =clbs.filter(item => item.id !== id);  
-       console.log(clubs);
-       setClubs(clubs);  
+      console.log(annonces)
+       annoncess =annonces.filter(item => item.id !== id);  
+       console.log(annoncess);
+       setAnnonces(annoncess);  
       alert("deleted")
      })
    } catch (err) {
@@ -177,7 +180,7 @@ const columns: GridColDef[] = [
   };
  
  
-*/
+
  
   return (
     

@@ -1,30 +1,57 @@
-import React, {useState,useRef,useEffect} from 'react';
+import React, {useState,useRef,useEffect,useContext} from 'react';
 import './Login.css';
 import { Navigate, useNavigate} from 'react-router-dom';
+import AuthContext from "../../context/AuthProvider";
+import axios from 'axios';
+//import axios from './api/axios';
 
 import immo from"../../assets/images/immo.jpg"
+const LOGIN_URL = '/auth';
 export default function Login() {
-  
+  const { setAuth } = useContext(AuthContext);
      const [user,setUser]=useState('');
      const [pwd,setPwd]=useState('');
      const [errMsg,setErrMsg]=useState('');
      const [success,setSuccess]=useState(false);
      const userRef=useRef();
      const errRef=useRef();
+     
      useEffect(()=>{
-      //userRef.current.focus();
-    })
-     useEffect(()=>{
+
         setErrMsg('');
      },[user,pwd])
      
-     const handleSubmit=e=>{
+     const handleSubmit=async(e)=>{
       e.preventDefault();
-       setUser('');
-      setPwd('');
-      setSuccess(true);
-
-     }
+      try {
+        const response=await axios.post(`http://localhost:3000/api/auth/login`,JSON.stringify({user,pwd}),{
+          headers: { 'Content-Type': 'application/json'},
+          withCredentials: true
+      }
+      
+        );
+        console.log(response);
+         console.log(JSON.stringify(response?.data));
+            console.log(JSON.stringify(response));
+          const accessToken = response?.data?.accessToken;
+            //const roles = response?.data?.roles;
+            setAuth({ user, pwd, accessToken });
+            setUser('');
+            setPwd('');
+            setSuccess(true);
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current.focus();
+        }
+    }
     return (
       <>
       {success ?(
